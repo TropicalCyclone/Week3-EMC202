@@ -9,7 +9,7 @@ public class ConsumableClass : ItemClass
     public float healthAdded;
 
     public override ItemClass GetItem() { return this; }
-    public override ToolClass GetTool() { return null; }
+    public override EquipmentClass GetTool() { return null; }
     public override MiscClass GetMisc() { return null; }
     public override ConsumableClass GetConsumable() { return this; }
 

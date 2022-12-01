@@ -13,6 +13,12 @@ public class SlotClass
         item = null;
         quantity = 0;
     }
+    public SlotClass(SlotClass slot)
+    {
+        item = slot.item;
+        quantity = slot.quantity;
+    }
+
 
     public SlotClass(ItemClass _item, int _quantity)
     {
@@ -32,6 +38,18 @@ public class SlotClass
     public void SubQuantity(int _quantity)
     {
         quantity -= _quantity;
+    }
+
+    public void Clear()
+    { 
+    this.item = null;
+        this.quantity = 0;
+    }
+        
+        
+    public void AddItem(ItemClass _item,int _quantity) { 
+    this.item = _item;
+        this.quantity = _quantity;
     }
 }
 

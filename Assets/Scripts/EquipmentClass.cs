@@ -2,10 +2,10 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "new Tool Class", menuName = "Item/Tool")]
-public class ToolClass : ItemClass
+[CreateAssetMenu(fileName = "new Equipment Class", menuName = "Item/Equipment")]
+public class EquipmentClass : ItemClass
 {
-    [Header("Tool")]
+    [Header("Equipment")]
     public ToolType toolType;
 
     public enum ToolType
@@ -16,7 +16,7 @@ public class ToolClass : ItemClass
         axe
     }
     public override ItemClass GetItem() { return this; }
-    public override ToolClass GetTool() { return this; }
+    public override EquipmentClass GetTool() { return this; }
     public override MiscClass GetMisc() { return null; }
     public override ConsumableClass GetConsumable() { return null; }
 
