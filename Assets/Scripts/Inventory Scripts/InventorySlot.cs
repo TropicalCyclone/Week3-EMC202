@@ -29,6 +29,12 @@ public class InventorySlot
         stackSize = -1;
     }
 
+    public void UpdateInventorySlot(InventoryItemData data, int amount)
+    {
+        itemData = data;
+        stackSize = amount;
+    }
+
     public bool RoomLeftInStack(int amountToAdd, out int amountRemaining)
     {
         amountRemaining = ItemData.MaxStackSize - stackSize;
@@ -41,9 +47,9 @@ public class InventorySlot
         else return false;
     }
 
-    public void AddToStack(int amount)
+    public void AddToStack(int amountToAdd)
     {
-        stackSize += amount;
+        stackSize += amountToAdd;
     }
 
     public void RemoveFromStack(int amount)
