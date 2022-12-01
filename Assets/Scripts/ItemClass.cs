@@ -13,8 +13,8 @@ public abstract class ItemClass : ScriptableObject
     public string itemDesc;
     public bool isStackable = true;
 
-    public abstract ItemClass GetItem();
-    public abstract EquipmentClass GetTool();
-    public abstract MiscClass GetMisc();
-    public abstract ConsumableClass GetConsumable();
+    public virtual ItemClass GetItem() { return this; }
+    public virtual EquipmentClass GetTool() { return null; }
+    public virtual MiscClass GetMisc() { return null; }
+    public virtual ConsumableClass GetConsumable() { return null; }
 }

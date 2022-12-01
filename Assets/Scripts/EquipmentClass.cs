@@ -15,9 +15,7 @@ public class EquipmentClass : ItemClass
         hammer,
         axe
     }
-    public override ItemClass GetItem() { return this; }
     public override EquipmentClass GetTool() { return this; }
-    public override MiscClass GetMisc() { return null; }
-    public override ConsumableClass GetConsumable() { return null; }
+
 
 }
