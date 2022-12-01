@@ -25,6 +25,11 @@ public class InventoryManager : MonoBehaviour
     private SlotClass tempSlot;
     private SlotClass originalSlot;
     bool isMovingItem;
+
+    [SerializeField] private GameObject hotbarSelector;
+    [SerializeField] private int selectedSlotIndex = 0;
+    public ItemClass selectedItem;
+
     private void Start()
     {
         slots = new GameObject[slotHolder.transform.childCount];
@@ -86,6 +91,16 @@ public class InventoryManager : MonoBehaviour
                 }
             
         }
+        if (Input.GetAxis("Mouse ScrollWheel") > 0)
+        {
+            selectedSlotIndex = Mathf.Clamp(selectedSlotIndex + 1,0,hotbarSlots.Length -1);
+        }
+        else if (Input.GetAxis("Mouse ScrollWheel") < 0)
+        {
+            selectedSlotIndex = Mathf.Clamp(selectedSlotIndex - 1, 0, hotbarSlots.Length -1);
+        }
+            hotbarSelector.transform.position = hotbarSlots[selectedSlotIndex].transform.position;
+        selectedItem = items[selectedSlotIndex + (hotbarSlots.Length * 3)].GetItem();
     }
 
     #region Inventory Utils
