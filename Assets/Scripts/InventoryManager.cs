@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-
+using TMPro;
 
 
 public class InventoryManager : MonoBehaviour
@@ -18,6 +18,8 @@ public class InventoryManager : MonoBehaviour
 
     public SlotClass[] items;
 
+    [SerializeField] private DialogBoxUI DialogBox;
+
     private GameObject[] slots;
     private GameObject[] hotbarSlots;
 
@@ -25,6 +27,9 @@ public class InventoryManager : MonoBehaviour
     private SlotClass tempSlot;
     private SlotClass originalSlot;
     bool isMovingItem;
+
+    private float lastClickTime;
+    public float catchTime = 0.10f;
 
     [SerializeField] private GameObject hotbarSelector;
     [SerializeField] private int selectedSlotIndex = 0;
@@ -64,18 +69,42 @@ public class InventoryManager : MonoBehaviour
         itemCursor.SetActive(isMovingItem);
         itemCursor.transform.position = Input.mousePosition;
         if (isMovingItem)
-            itemCursor.GetComponent<Image>().sprite = movingSlot.GetItem().itemIcon;
+            try
+            {
+                itemCursor.GetComponent<Image>().sprite = movingSlot.GetItem().itemIcon;
+            }
+            catch
+            {
+                isMovingItem = false;
+            }
 
         if (Input.GetMouseButtonDown(0))
         {
-            if (isMovingItem)
+            if (Time.time - lastClickTime < catchTime)
             {
-                EndItemMove();
+                try
+                {
+                    movingSlot.GetItem().Use(this);
+                    lastClickTime = catchTime;
+                }
+                catch
+                {
+
+                }
             }
             else
             {
-                BeginItemMove();
+                if (isMovingItem)
+                {
+                    EndItemMove();
+                }
+                else
+                {
+                    BeginItemMove();
+                }
             }
+            lastClickTime = Time.time;
+            
         }
 
         else if (Input.GetMouseButtonDown(1))
@@ -211,6 +240,14 @@ public class InventoryManager : MonoBehaviour
         return true;
     }
 
+    public void UseItem()
+    {
+        movingSlot.SubQuantity(1);
+        if(movingSlot.getQuantity() <= 0)
+        {
+            movingSlot.Clear();
+        }
+    }
     public SlotClass Contains(ItemClass item)
     {
         for (int i = 0; i < items.Length; i++)
@@ -257,11 +294,22 @@ public class InventoryManager : MonoBehaviour
     }
     private bool EndItemMove()
     {
+        ItemClass itemStore = movingSlot.GetItem();
+        int Quant = movingSlot.getQuantity();
         originalSlot = GetClosestSlot();
         if (originalSlot == null)
         {
-            Add(movingSlot.GetItem(), movingSlot.getQuantity());
-            movingSlot.Clear();
+            int Pick = DialogBox.Show();
+            if (Pick == 1)
+            {
+                movingSlot.Clear();
+            }
+                else if (Pick == 2)
+            {
+                Add(itemStore, Quant);
+                movingSlot.Clear();
+            }
+            
         }
         else
         {
@@ -347,4 +395,9 @@ public class InventoryManager : MonoBehaviour
         return null;
     }
     #endregion
+
+    public SlotClass ReturnClass()
+    {
+        return movingSlot;
+    }
 }

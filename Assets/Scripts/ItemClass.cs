@@ -13,6 +13,11 @@ public abstract class ItemClass : ScriptableObject
     public string itemDesc;
     public bool isStackable = true;
 
+    public virtual void Use(InventoryManager manager)
+    {
+        Debug.Log("Used Item");
+    }
+
     public virtual ItemClass GetItem() { return this; }
     public virtual EquipmentClass GetTool() { return null; }
     public virtual MiscClass GetMisc() { return null; }

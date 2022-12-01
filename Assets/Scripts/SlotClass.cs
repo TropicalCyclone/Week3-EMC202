@@ -37,7 +37,8 @@ public class SlotClass
     }
     public void SubQuantity(int _quantity)
     {
-        quantity -= _quantity;
+        this.quantity -= _quantity;
+        
     }
 
     public void Clear()
