@@ -11,10 +11,7 @@ public class DialogBoxUI : MonoBehaviour
     [SerializeField] private Button yesBtn;
     [SerializeField] private Button noBtn;
     [SerializeField] private InventoryManager manager;
-    public enum MyEnum : int
-    {
-        A, B, C, D
-    }
+ 
     private void Awake()
     {
         gameObject.SetActive(false);
@@ -27,13 +24,23 @@ public class DialogBoxUI : MonoBehaviour
         gameObject.SetActive(true);
         ButtonPress(() => {
             Dialog = 1;
-            gameObject.SetActive(false);
+            
         }, () => {
             Dialog = 2;
-            gameObject.SetActive(false);
+            
         });
         return Dialog;
         
+    }
+
+    public void ButtonPressYes()
+    {
+        gameObject.SetActive(false);
+    }
+
+    public void ButtonPressNo()
+    {
+        gameObject.SetActive(false);
     }
 
     private void ButtonPress(Action ButtonYes,Action ButtonNo)

@@ -22,7 +22,7 @@ public class InventoryManager : MonoBehaviour
 
     private GameObject[] slots;
     private GameObject[] hotbarSlots;
-
+    private bool isDeleting = false;
     private SlotClass movingSlot;
     private SlotClass tempSlot;
     private SlotClass originalSlot;
@@ -61,9 +61,9 @@ public class InventoryManager : MonoBehaviour
 
         RefreshUI();
         Add(itemToAdd, 1);
-        Remove(itemToRemove);
+        Remove(itemToRemove, 1);
     }
-
+    
     private void Update()
     {
         itemCursor.SetActive(isMovingItem);
@@ -87,10 +87,7 @@ public class InventoryManager : MonoBehaviour
                     movingSlot.GetItem().Use(this);
                     lastClickTime = catchTime;
                 }
-                catch
-                {
-
-                }
+                catch{}
             }
             else
             {
@@ -209,13 +206,28 @@ public class InventoryManager : MonoBehaviour
         return true;
     }
 
-    public bool Remove(ItemClass item)
+    public bool DeleteAdd(ItemClass item, int quantity)
+    {   
+            for (int i = 0; i < slots.Length; i++)
+            {
+                if (items[i].GetItem() == null)
+                {
+                    items[i].AddItem(item, quantity);
+                    break;
+                }
+            }
+        
+        RefreshUI();
+        return true;
+    }
+
+    public bool Remove(ItemClass item, int quantity)
     {
         SlotClass temp = Contains(item);
         if (temp != null)
         {
             if (temp.getQuantity() > 1)
-            temp.SubQuantity(1);
+            temp.SubQuantity(quantity);
             else
             {
                 int DeleteSlotIndex = 0;
@@ -294,56 +306,55 @@ public class InventoryManager : MonoBehaviour
     }
     private bool EndItemMove()
     {
-        ItemClass itemStore = movingSlot.GetItem();
-        int Quant = movingSlot.getQuantity();
+        tempSlot = new SlotClass(movingSlot);
         originalSlot = GetClosestSlot();
-        if (originalSlot == null)
+        if (originalSlot == null )
         {
-            int Pick = DialogBox.Show();
-            if (Pick == 1)
-            {
-                movingSlot.Clear();
-            }
-                else if (Pick == 2)
-            {
-                Add(itemStore, Quant);
-                movingSlot.Clear();
-            }
-            
+                Add(tempSlot.GetItem(), tempSlot.getQuantity());
+                RefreshUI();
         }
         else
         {
-
-            if (originalSlot.GetItem() != null)
-            {
-                if (originalSlot.GetItem() == movingSlot.GetItem())
+                if (originalSlot.GetItem() != null)
                 {
-                    if (originalSlot.GetItem().isStackable)
+                    if (originalSlot.GetItem() == movingSlot.GetItem())
                     {
-                        originalSlot.AddQuantity(movingSlot.getQuantity());
-                        movingSlot.Clear();
+                        if (originalSlot.GetItem().isStackable)
+                        {
+                            originalSlot.AddQuantity(movingSlot.getQuantity());
+                            movingSlot.Clear();
+                        }
+                        else
+                            return false;
                     }
+                    
                     else
-                        return false;
+                    {
+                        tempSlot = new SlotClass(originalSlot);
+                        originalSlot.AddItem(movingSlot.GetItem(), movingSlot.getQuantity());
+                        movingSlot.AddItem(tempSlot.GetItem(), tempSlot.getQuantity());
+                        RefreshUI();
+                        return true;
+                    }
+
+
                 }
+                else if (originalSlot == items[28] || originalSlot == items[29])
+                {
+                    
+                    originalSlot.AddItem(movingSlot.GetItem(), movingSlot.getQuantity());
+                    DialogBox.Show();
+                    
+                }
+
                 else
                 {
-                    tempSlot = new SlotClass(originalSlot);
+
                     originalSlot.AddItem(movingSlot.GetItem(), movingSlot.getQuantity());
-                    movingSlot.AddItem(tempSlot.GetItem(), tempSlot.getQuantity());
-                    RefreshUI();
-                    return true;
+
                 }
-
-
-            }
-            else
-            {
-
-                originalSlot.AddItem(movingSlot.GetItem(), movingSlot.getQuantity());
-                movingSlot.Clear();
-
-            }
+            
+           
         }
 
         isMovingItem=false;
@@ -395,7 +406,37 @@ public class InventoryManager : MonoBehaviour
         return null;
     }
     #endregion
+    
+    public void ButtonYesPress()
+    {
 
+        items[28].Clear();
+        items[29].Clear();
+        movingSlot.Clear();
+        RefreshUI();
+        isDeleting = false;
+
+    }
+    public void ButtonNoPress()
+    {
+        try
+        {
+            DeleteAdd(items[28].GetItem(), items[28].getQuantity());
+        }
+        catch{}
+        try
+        {
+            DeleteAdd(items[29].GetItem(), items[29].getQuantity());
+        }
+        catch{}
+
+        items[28].Clear();
+        items[29].Clear();
+        movingSlot.Clear();
+        RefreshUI();
+        isDeleting = false;
+
+    }
     public SlotClass ReturnClass()
     {
         return movingSlot;
