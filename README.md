@@ -1,11 +1,29 @@
 # Week3-EMC202
 
-## INVENTORY MANAGEMENT SYSTEM
+# INVENTORY MANAGEMENT SYSTEM
 ---------------------
 This is a inventory management system created in Unity.
 
-Navigation:
-----------------
+-------------
+
+# Item Classes:
+
+## Item Class
+
+It is a default class that contains the itemID, itemName, ItemIcon, and Item Description. This class is the Parent claas of all other classes.
+
+## Misc Class
+
+This item class contains all miscellaneous items that are not Consumable nor Equipment class.
+
+## Utility Class
+
+This item class Has tooltypes where .
+
+-------------
+
+# Navigation:
+
 ## Picking up an item
 
 - left click on an Item = Pick up Item
@@ -41,3 +59,12 @@ Navigation:
 - pressing yes drops the item.
 
 - pressing no replaces the item on the inventory
+
+---------------------------
+
+# Unimplemented Features
+
+- ### Debug menu 
+-Has an alternative on the Inspector where you can Set the Starting Items.
+
+
