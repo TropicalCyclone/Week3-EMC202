@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 079b167bebf502041ab8db1c85c26d2f, type: 3}
   m_Name: Apple
   m_EditorClassIdentifier: 
-  ID: 
+  itemID: 1
   itemName: Apple
   itemIcon: {fileID: 21300000, guid: c9daf30b6b0771845bec48d6ff55dbf5, type: 3}
   itemDesc: It is an Apple.

@@ -17,3 +17,4 @@ public class ConsumableClass : ItemClass
     public override ConsumableClass GetConsumable() { return this; }
 
 }
+

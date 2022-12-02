@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
+using UnityEditor;
 
 
 public class InventoryManager : MonoBehaviour
@@ -20,6 +21,8 @@ public class InventoryManager : MonoBehaviour
 
     [SerializeField] private DialogBoxUI DialogBox;
 
+    [SerializeField] private DebugPanel DebugPanel;
+
     private GameObject[] slots;
     private GameObject[] hotbarSlots;
     private bool isDeleting = false;
@@ -27,6 +30,7 @@ public class InventoryManager : MonoBehaviour
     private SlotClass tempSlot;
     private SlotClass originalSlot;
     bool isMovingItem;
+    bool press = true;
 
     private float lastClickTime;
     public float catchTime = 0.10f;
@@ -369,10 +373,15 @@ public class InventoryManager : MonoBehaviour
         {
             return false;
         }
-        else if (originalSlot.GetItem() != null && originalSlot.GetItem() != movingSlot.GetItem())
+        else if (originalSlot.GetItem() != null && originalSlot.GetItem() != movingSlot.GetItem()) { 
             return false;
-  
+        }
+        else if(originalSlot.GetItem() != null && !originalSlot.GetItem().isStackable){
+            return false;
+        }
+
         movingSlot.SubQuantity(1);
+        
         if(originalSlot.GetItem() != null && originalSlot.GetItem() == movingSlot.GetItem())
         {
             originalSlot.AddQuantity(1);
@@ -441,4 +450,30 @@ public class InventoryManager : MonoBehaviour
     {
         return movingSlot;
     }
+
+    public void OpenDebug()
+    {
+        if (press)
+        {
+            DebugPanel.GetComponent<DebugPanel>().gameObject.SetActive(true);
+            press = !press;
+        }
+        else
+        {
+            DebugPanel.GetComponent<DebugPanel>().gameObject.SetActive(false);
+            press = !press;
+        }
+    }
+
+   /* private bool ItemAdder()
+    {
+        string[] guids = AssetDatabase.FindAssets("t:ItemClass",null);
+        foreach (string guid in guids)
+        {
+            Debug.Log(AssetDatabase.;
+
+        }
+        return true;
+    }*/
+
 }

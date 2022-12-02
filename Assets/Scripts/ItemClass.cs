@@ -6,7 +6,8 @@ using UnityEngine;
 
 public abstract class ItemClass : ScriptableObject
 {
-    public string ID;
+    
+    public string itemID;
     public string itemName;
     public Sprite itemIcon;
     [TextArea(10, 10)]
@@ -22,4 +23,6 @@ public abstract class ItemClass : ScriptableObject
     public virtual EquipmentClass GetTool() { return null; }
     public virtual MiscClass GetMisc() { return null; }
     public virtual ConsumableClass GetConsumable() { return null; }
+
+    
 }

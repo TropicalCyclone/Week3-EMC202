@@ -44,7 +44,7 @@ public class SlotClass
     public void Clear()
     { 
     this.item = null;
-        this.quantity = 0;
+    this.quantity = 0;
     }
         
         
