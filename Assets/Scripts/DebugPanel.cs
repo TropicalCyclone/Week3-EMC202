@@ -1,18 +1,27 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
+using TMPro;
 
 public class DebugPanel : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
+    private string input;
+    [SerializeField] private GameObject inputField;
+    public string GetInput()
     {
-        
-    }
+        try
+        {
+            input = inputField.GetComponent<TMP_InputField>().text;
+        }
+        catch
+        {
+            Debug.Log("No Text found");
+            return null;
+        }
+        if (input != null)
+            return input;
 
-    // Update is called once per frame
-    void Update()
-    {
-        
+        return null;
     }
 }
