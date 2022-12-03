@@ -62,9 +62,8 @@ This item class Has tooltypes where .
 
 ---------------------------
 
-# Yet to be Implemented Features
+## Debug Menu
 
-- ### Debug menu 
--Has an alternative on the Inspector where you can Set the Starting Items.
+- can add items using the item ID of the item
 
 
