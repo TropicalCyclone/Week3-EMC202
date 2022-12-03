@@ -18,7 +18,13 @@ This item class contains all miscellaneous items that are not Consumable nor Equ
 
 ## Utility Class
 
-This item class Has tooltypes where .
+This item class Has tool types which are:
+
+- Weapon
+- Piakcaxe
+- Hammer
+- Axe
+
 
 -------------
 
